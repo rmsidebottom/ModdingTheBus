@@ -3,6 +3,8 @@
 # using this, you can write to a synchronous server
 
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
+# from pymodbus.client.async import ModbusTcpClient as ModbusClient
+
 
 UNIT = 0x1
 
@@ -13,10 +15,10 @@ def mgmtClient():
     # connect the client to the server
     client.connect()
 
-    print "Write to a Coil and read back"
+    print("Write to a Coil and read back")
 
     # retrieve user input
-    tf = raw_input("Enter on or off, exit to quit: ")
+    tf = input("Enter on or off, exit to quit: ")
     while tf.lower() != "exit":
         if tf == "on":
             # write ON signal to server
@@ -25,7 +27,7 @@ def mgmtClient():
             # write OFF signal to server
             rq = client.write_coil(1, False, unit=UNIT)
         # retrieve user input again
-        tf = raw_input("Enter on or off, exit to quit: ")
+        tf = input("Enter on or off, exit to quit: ")
 
     # close the client
     client.close()
