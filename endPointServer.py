@@ -10,7 +10,7 @@ from pymodbus.datastore import ModbusSequentialDataBlock
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
 from pymodbus.transaction import ModbusRtuFramer
 
-from key import key, ip
+from key import key, ip, bridge
 import time, threading, requests, pprint
 
 UNIT = 0x1
@@ -25,7 +25,7 @@ class ClientThread (threading.Thread):
     def run(self):
         # set temporary variable
         val = None
-        url="http://"+ip+"/api/"+key+"/lights/1/state"
+        url="http://"+bridge+"/api/"+key+"/lights/1/state"
 
         # create an infinite loop
         while(True):
@@ -73,7 +73,7 @@ class ServerThread (threading.Thread):
         identity.MajorMinorRevision = '1.0'
 
         # start the TCP server, in different thread
-        StartTcpServer(context, identity=identity, address=("localhost", 5020))
+        StartTcpServer(context, identity=identity, address=(ip, 5020))
 
 def dbServer():
     # start server thread
@@ -81,7 +81,7 @@ def dbServer():
     sThread.start()
 
     # start client on the main thread, client will interact with the server
-    client = ModbusClient('localhost', port=5020)
+    client = ModbusClient(ip, port=5020)
     # connect the client to the server
     client.connect()
 

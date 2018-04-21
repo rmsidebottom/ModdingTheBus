@@ -3,14 +3,14 @@
 # using this, you can write to a synchronous server
 
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
-# from pymodbus.client.async import ModbusTcpClient as ModbusClient
+from key import ip
 
 
 UNIT = 0x1
 
 def mgmtClient():
     # create the TCP client
-    client = ModbusClient('localhost', port=5020)
+    client = ModbusClient(ip, port=5020)
 
     # connect the client to the server
     client.connect()
